@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="vi"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Trợ lý chuyến hàng</title>
+
+<style> body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20px; background: #f2f2f2; } h1 { margin-bottom: 10px; } #status { font-size: 20px; margin: 20px; padding: 15px; background: white; border-radius: 10px; } button { font-size: 18px; padding: 15px 25px; margin: 10px; cursor: pointer; border-radius: 10px; border: none; } #map { width: 100%; height: 450px; margin-top: 20px; border-radius: 10px; border: 0; } </style>
+
+</head>
+
+<body>
+
+<h1>🤖 Trợ lý chuyến hàng</h1>
+
+<div id="status"> Hệ thống đã sẵn sàng </div>
+
+<button onclick="listen()">🎤 Nói lệnh</button>
+
+<button onclick="openMaps()"> 🗺️ Mở Google Maps </button>
+
+<button onclick="startTrip()"> 🚚 Khởi động chuyến hàng </button>
+
+<button onclick="stopTrip()"> 🛑 Dừng chuyến hàng </button>
+
+<iframe id="map" src="https://www.google.com/maps" ></iframe>
+
+<script> const status = document.getElementById("status"); function speak(text) { status.innerHTML = "🤖 " + text; const speech = new SpeechSynthesisUtterance(text); speech.lang = "vi-VN"; window.speechSynthesis.speak(speech); } function openMaps() { speak("Đang mở Google Maps"); window.open( "https://www.google.com/maps", "_blank" ); } function startTrip() { speak("Đã nhận lệnh. Đang khởi động chuyến hàng"); setTimeout(function() { speak("Chuyến hàng đã được khởi động thành công"); document.body.style.background = "#d4ffd4"; }, 2000); } function stopTrip() { speak("Đã dừng chuyến hàng"); document.body.style.background = "#ffd4d4"; } function listen() { const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SpeechRecognition) { alert( "Trình duyệt của bạn không hỗ trợ nhận diện giọng nói" ); return; } const recognition = new SpeechRecognition(); recognition.lang = "vi-VN"; recognition.start(); status.innerHTML = "🎤 Đang nghe..."; recognition.onresult = function(event) { const command = event.results[0][0].transcript .toLowerCase(); status.innerHTML = "👤 Bạn nói: " + command; if ( command.includes("mở google maps") || command.includes("mở bản đồ") ) { openMaps(); } else if ( command.includes("khởi động chuyến hàng") ) { startTrip(); } else if ( command.includes("dừng chuyến hàng") ) { stopTrip(); } else { speak( "Tôi chưa hiểu lệnh này" ); } }; recognition.onerror = function() { speak( "Có lỗi với microphone" ); }; } speak( "Xin chào. Trợ lý chuyến hàng đã sẵn sàng" ); </script>
+
+</body> </html>
