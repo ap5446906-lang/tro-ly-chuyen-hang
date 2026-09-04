@@ -22,13 +22,7 @@
 
 <button onclick="stopTrip()"> 🛑 Dừng chuyến hàng </button>
 
-<iframe
-  id="map"
-  width="100%"
-  height="450"
-  style="border:0; border-radius:10px;"
-  src="https://www.openstreetmap.org/export/embed.html?bbox=105.75%2C21.00%2C105.95%2C21.10&layer=mapnik"
-></iframe>
+<iframe id="map" width="100%" height="500" style="border:0;" src="https://www.openstreetmap.org/export/embed.html?bbox=105.7%2C20.8%2C105.9%2C21.0&amp;layer=mapnik" allowfullscreen></iframe>
 
 <script> const status = document.getElementById("status"); function speak(text) { status.innerHTML = "🤖 " + text; const speech = new SpeechSynthesisUtterance(text); speech.lang = "vi-VN"; window.speechSynthesis.speak(speech); } function openMaps() { speak("Đang mở Google Maps"); window.open( "https://www.google.com/maps", "_blank" ); } function startTrip() { speak("Đã nhận lệnh. Đang khởi động chuyến hàng"); setTimeout(function() { speak("Chuyến hàng đã được khởi động thành công"); document.body.style.background = "#d4ffd4"; }, 2000); } function stopTrip() { speak("Đã dừng chuyến hàng"); document.body.style.background = "#ffd4d4"; } function listen() { const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; if (!SpeechRecognition) { alert( "Trình duyệt của bạn không hỗ trợ nhận diện giọng nói" ); return; } const recognition = new SpeechRecognition(); recognition.lang = "vi-VN"; recognition.start(); status.innerHTML = "🎤 Đang nghe..."; recognition.onresult = function(event) { const command = event.results[0][0].transcript .toLowerCase(); status.innerHTML = "👤 Bạn nói: " + command; if ( command.includes("mở google maps") || command.includes("mở bản đồ") ) { openMaps(); } else if ( command.includes("khởi động chuyến hàng") ) { startTrip(); } else if ( command.includes("dừng chuyến hàng") ) { stopTrip(); } else { speak( "Tôi chưa hiểu lệnh này" ); } }; recognition.onerror = function() { speak( "Có lỗi với microphone" ); }; } speak( "Xin chào. Trợ lý chuyến hàng đã sẵn sàng" ); </script>
 
