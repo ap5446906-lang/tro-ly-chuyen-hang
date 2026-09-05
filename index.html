@@ -501,13 +501,28 @@ function speak(text) {
 
     status.innerHTML = "🤖 " + text;
 
+    window.speechSynthesis.cancel();
+
     const speech =
         new SpeechSynthesisUtterance(text);
 
     speech.lang = "vi-VN";
     speech.rate = 1;
+    speech.pitch = 1;
 
-    window.speechSynthesis.cancel();
+    const voices =
+        window.speechSynthesis.getVoices();
+
+    const vietnameseVoice =
+        voices.find(voice =>
+            voice.lang.toLowerCase()
+            .startsWith("vi")
+        );
+
+    if (vietnameseVoice) {
+        speech.voice =
+            vietnameseVoice;
+    }
 
     window.speechSynthesis.speak(speech);
 }
