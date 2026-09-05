@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Trợ lý AI của tôi</title>
+<title>Trợ lý Robot AI</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -16,49 +15,55 @@ body {
     margin: 0;
     min-height: 100vh;
     font-family: Arial, sans-serif;
+    color: white;
+    overflow-x: hidden;
 
     background:
-        linear-gradient(
-            135deg,
-            rgba(10, 15, 35, 0.9),
-            rgba(35, 10, 70, 0.85)
-        ),
-        url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80");
+        linear-gradient(rgba(5, 10, 25, 0.85), rgba(10, 5, 30, 0.9)),
+        url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1920&q=80");
 
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+}
 
-    color: white;
+/* Lớp nền ánh sáng */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 50px,
+            rgba(0, 255, 255, 0.04) 51px,
+            transparent 52px
+        );
 
-    padding: 30px;
+    z-index: -1;
 }
 
 .app {
-    width: 100%;
-    max-width: 1000px;
+    width: min(1100px, 94%);
+    margin: 30px auto;
+    padding: 30px;
 
-    background: rgba(255,255,255,0.12);
-
+    background: rgba(10, 15, 35, 0.72);
     backdrop-filter: blur(15px);
 
-    border: 1px solid rgba(255,255,255,0.2);
-
-    border-radius: 25px;
-
-    padding: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,0.5);
+        0 0 40px rgba(0, 200, 255, 0.15);
 }
 
 h1 {
     text-align: center;
-    margin-top: 0;
+    margin: 0;
     font-size: 38px;
 }
 
@@ -67,19 +72,246 @@ h1 {
     opacity: 0.8;
 }
 
-#status {
-    margin: 25px 0;
+/* ROBOT */
 
-    padding: 18px;
+.robot-area {
+    height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.robot {
+    width: 180px;
+    height: 300px;
+    position: relative;
+
+    transform-style: preserve-3d;
+    animation: robotFloat 3s ease-in-out infinite;
+}
+
+/* Đầu */
+.head {
+    width: 150px;
+    height: 110px;
+
+    position: absolute;
+    left: 15px;
+
+    border-radius: 35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dcefff,
+            #506070
+        );
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.4),
+        0 0 30px rgba(0,255,255,0.5);
+
+    transform:
+        rotateY(-8deg)
+        rotateX(5deg);
+}
+
+/* Mặt */
+.face {
+    width: 120px;
+    height: 45px;
+
+    position: absolute;
+    top: 35px;
+    left: 15px;
+
+    border-radius: 20px;
+
+    background: #07101a;
+
+    box-shadow:
+        inset 0 0 15px #00eaff;
+}
+
+/* Mắt */
+.eye {
+    position: absolute;
+    top: 14px;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    background: #00ffff;
+
+    box-shadow:
+        0 0 15px #00ffff;
+}
+
+.eye.left {
+    left: 25px;
+}
+
+.eye.right {
+    right: 25px;
+}
+
+/* Cổ */
+.neck {
+    position: absolute;
+
+    top: 110px;
+    left: 65px;
+
+    width: 50px;
+    height: 25px;
+
+    background: #777;
+}
+
+/* Thân */
+.body-robot {
+    position: absolute;
+
+    top: 135px;
+    left: 30px;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #cfdce8,
+            #344250
+        );
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.4),
+        0 0 20px rgba(0,255,255,0.25);
+}
+
+/* Lõi AI */
+.core {
+    position: absolute;
+
+    width: 45px;
+    height: 45px;
+
+    left: 37px;
+    top: 35px;
+
+    border-radius: 50%;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 25px #00eaff;
+
+    animation: coreGlow 1.5s infinite alternate;
+}
+
+/* Tay */
+.arm {
+    position: absolute;
+
+    top: 145px;
+
+    width: 30px;
+    height: 110px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #bfcbd5,
+            #405060
+        );
+}
+
+.arm.left {
+    left: -5px;
+    transform: rotate(8deg);
+}
+
+.arm.right {
+    right: -5px;
+    transform: rotate(-8deg);
+}
+
+/* Chân */
+.leg {
+    position: absolute;
+
+    top: 250px;
+
+    width: 40px;
+    height: 80px;
 
     border-radius: 15px;
 
-    background: rgba(0,0,0,0.3);
+    background:
+        linear-gradient(
+            90deg,
+            #c4d0db,
+            #35424d
+        );
+}
+
+.leg.left {
+    left: 45px;
+}
+
+.leg.right {
+    right: 45px;
+}
+
+@keyframes robotFloat {
+    0%, 100% {
+        transform: translateY(0) rotateY(-5deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotateY(5deg);
+    }
+}
+
+@keyframes coreGlow {
+    from {
+        box-shadow: 0 0 10px #00eaff;
+    }
+
+    to {
+        box-shadow: 0 0 40px #00eaff;
+    }
+}
+
+/* TRẠNG THÁI */
+
+#status {
+    max-width: 700px;
+
+    margin: 10px auto 25px;
+
+    padding: 18px;
 
     text-align: center;
 
     font-size: 20px;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    border: 1px solid rgba(0,255,255,0.25);
+
+    border-radius: 15px;
 }
+
+/* MICROPHONE */
 
 .mic-container {
     text-align: center;
@@ -89,17 +321,22 @@ h1 {
     width: 100px;
     height: 100px;
 
-    border-radius: 50%;
-
     border: none;
+    border-radius: 50%;
 
     font-size: 40px;
 
     cursor: pointer;
 
-    margin: 15px;
+    background:
+        linear-gradient(
+            135deg,
+            #00c6ff,
+            #0072ff
+        );
 
-    background: white;
+    box-shadow:
+        0 0 25px rgba(0,200,255,0.7);
 
     transition: 0.3s;
 }
@@ -109,30 +346,32 @@ h1 {
 }
 
 .grid {
+    margin-top: 35px;
+
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(180px, 1fr));
+        repeat(auto-fit, minmax(170px, 1fr));
 
     gap: 15px;
-
-    margin-top: 25px;
 }
 
 .app-button {
+    padding: 18px;
+
     border: none;
 
     border-radius: 15px;
 
-    padding: 20px;
-
-    font-size: 17px;
-
     cursor: pointer;
 
-    background: rgba(255,255,255,0.15);
-
     color: white;
+
+    font-size: 16px;
+
+    background: rgba(255,255,255,0.1);
+
+    border: 1px solid rgba(255,255,255,0.15);
 
     transition: 0.25s;
 }
@@ -140,7 +379,10 @@ h1 {
 .app-button:hover {
     transform: translateY(-5px);
 
-    background: rgba(255,255,255,0.28);
+    background: rgba(0, 200, 255, 0.25);
+
+    box-shadow:
+        0 10px 25px rgba(0, 200, 255, 0.2);
 }
 
 .footer {
@@ -152,221 +394,182 @@ h1 {
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="app">
 
-<h1>🤖 Trợ lý giọng nói AI</h1>
+<h1>🤖 TRỢ LÝ ROBOT AI</h1>
 
 <p class="subtitle">
-Nói tên ứng dụng hoặc bấm nút để mở
+Nói tiếng Việt để yêu cầu robot mở ứng dụng
 </p>
 
+<div class="robot-area">
+
+<div class="robot">
+
+<div class="head">
+
+<div class="face">
+<div class="eye left"></div>
+<div class="eye right"></div>
+</div>
+
+</div>
+
+<div class="neck"></div>
+
+<div class="body-robot">
+<div class="core"></div>
+</div>
+
+<div class="arm left"></div>
+<div class="arm right"></div>
+
+<div class="leg left"></div>
+<div class="leg right"></div>
+
+</div>
+
+</div>
+
 <div id="status">
-🎤 Hệ thống đã sẵn sàng
+🤖 Robot đã sẵn sàng
 </div>
 
 <div class="mic-container">
-
-<button class="mic" onclick="listen()">
-🎤
-</button>
-
+<button class="mic" onclick="listen()">🎤</button>
 </div>
 
 <div class="grid">
 
-<button class="app-button"
-onclick="openWebsite('messenger')">
+<button class="app-button" onclick="openWebsite('messenger')">
 💬 Messenger
 </button>
 
-<button class="app-button"
-onclick="openWebsite('facebook')">
+<button class="app-button" onclick="openWebsite('facebook')">
 📘 Facebook
 </button>
 
-<button class="app-button"
-onclick="openWebsite('tiktok')">
+<button class="app-button" onclick="openWebsite('tiktok')">
 🎵 TikTok
 </button>
 
-<button class="app-button"
-onclick="openWebsite('maps')">
+<button class="app-button" onclick="openWebsite('maps')">
 🗺️ Google Maps
 </button>
 
-<button class="app-button"
-onclick="openWebsite('hazmob')">
+<button class="app-button" onclick="openWebsite('hazmob')">
 🎮 Hazmob FPS
 </button>
 
-<button class="app-button"
-onclick="openWebsite('piano')">
+<button class="app-button" onclick="openWebsite('piano')">
 🎹 Virtual Piano
 </button>
 
-<button class="app-button"
-onclick="openWebsite('chatgpt')">
+<button class="app-button" onclick="openWebsite('chatgpt')">
 🤖 ChatGPT
 </button>
 
-<button class="app-button"
-onclick="openWebsite('gemini')">
+<button class="app-button" onclick="openWebsite('gemini')">
 ✨ Gemini AI
 </button>
 
-<button class="app-button"
-onclick="openWebsite('youtube')">
-▶️ YouTube
+<button class="app-button" onclick="openWebsite('suongmai')">
+📚 Cô Sương Mai
+</button>
+
+<button class="app-button" onclick="openWebsite('maiphuong')">
+🇬🇧 Cô Mai Phương
 </button>
 
 </div>
 
 <p class="footer">
-Trợ lý giọng nói • Tiếng Việt 🇻🇳
+Robot AI • Trợ lý giọng nói tiếng Việt 🇻🇳
 </p>
 
 </div>
 
 <script>
 
-const status =
-document.getElementById("status");
-
+const status = document.getElementById("status");
 
 function speak(text) {
 
-    status.innerHTML =
-    "🤖 " + text;
+    status.innerHTML = "🤖 " + text;
 
     const speech =
-    new SpeechSynthesisUtterance(text);
+        new SpeechSynthesisUtterance(text);
 
     speech.lang = "vi-VN";
-
     speech.rate = 1;
 
     window.speechSynthesis.cancel();
 
     window.speechSynthesis.speak(speech);
-
 }
-
 
 function openWebsite(site) {
 
-    let url = "";
+    const websites = {
 
-    let name = "";
+        messenger: [
+            "https://www.messenger.com/",
+            "Messenger"
+        ],
 
+        facebook: [
+            "https://www.facebook.com/",
+            "Facebook"
+        ],
 
-    if (site === "messenger") {
+        tiktok: [
+            "https://www.tiktok.com/",
+            "TikTok"
+        ],
 
-        url =
-        "https://www.messenger.com/";
+        maps: [
+            "https://www.google.com/maps",
+            "Google Maps"
+        ],
 
-        name =
-        "Messenger";
+        hazmob: [
+            "https://www.crazygames.com/game/hazmob-fps",
+            "Hazmob FPS"
+        ],
 
-    }
+        piano: [
+            "https://virtualpiano.net/",
+            "Virtual Piano"
+        ],
 
+        chatgpt: [
+            "https://chatgpt.com/",
+            "ChatGPT"
+        ],
 
-    else if (site === "facebook") {
+        gemini: [
+            "https://gemini.google.com/",
+            "Gemini AI"
+        ],
 
-        url =
-        "https://www.facebook.com/";
+        suongmai: [
+            "https://www.youtube.com/@suongmaiqanda",
+            "kênh cô Sương Mai"
+        ],
 
-        name =
-        "Facebook";
+        maiphuong: [
+            "https://www.youtube.com/covumaiphuong",
+            "kênh cô Mai Phương"
+        ]
+    };
 
-    }
+    const [url, name] = websites[site];
 
-
-    else if (site === "tiktok") {
-
-        url =
-        "https://www.tiktok.com/";
-
-        name =
-        "TikTok";
-
-    }
-
-
-    else if (site === "maps") {
-
-        url =
-        "https://www.google.com/maps";
-
-        name =
-        "Google Maps";
-
-    }
-
-
-    else if (site === "hazmob") {
-
-        url =
-        "https://www.crazygames.com/game/hazmob-fps";
-
-        name =
-        "Hazmob FPS";
-
-    }
-
-
-    else if (site === "piano") {
-
-        url =
-        "https://virtualpiano.net/";
-
-        name =
-        "Virtual Piano";
-
-    }
-
-
-    else if (site === "chatgpt") {
-
-        url =
-        "https://chatgpt.com/";
-
-        name =
-        "ChatGPT";
-
-    }
-
-
-    else if (site === "gemini") {
-
-        url =
-        "https://gemini.google.com/";
-
-        name =
-        "Gemini AI";
-
-    }
-
-
-    else if (site === "youtube") {
-
-        url =
-        "https://www.youtube.com/";
-
-        name =
-        "YouTube";
-
-    }
-
-
-    speak(
-        "Đang mở " + name
-    );
-
+    speak("Đang mở " + name);
 
     setTimeout(function() {
 
@@ -375,223 +578,125 @@ function openWebsite(site) {
             "_blank"
         );
 
-    }, 500);
-
+    }, 700);
 }
-
-
 
 function listen() {
 
-
     const SpeechRecognition =
-
-    window.SpeechRecognition ||
-
-    window.webkitSpeechRecognition;
-
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
 
         speak(
-            "Trình duyệt của bạn không hỗ trợ nhận diện giọng nói"
+            "Trình duyệt không hỗ trợ nhận diện giọng nói"
         );
 
         return;
-
     }
 
-
     const recognition =
-    new SpeechRecognition();
+        new SpeechRecognition();
 
-
-    recognition.lang =
-    "vi-VN";
-
+    recognition.lang = "vi-VN";
 
     recognition.start();
 
-
     status.innerHTML =
-    "🎤 Đang nghe bạn nói...";
-
+        "🎤 Robot đang nghe bạn nói...";
 
     recognition.onresult =
-    function(event) {
-
+        function(event) {
 
         const command =
-
-        event.results[0][0]
-        .transcript
-        .toLowerCase();
-
+            event.results[0][0]
+            .transcript
+            .toLowerCase();
 
         status.innerHTML =
+            "👤 Bạn nói: " + command;
 
-        "👤 Bạn nói: " +
-        command;
-
-
-        if (
-            command.includes("messenger")
-        ) {
-
-            openWebsite(
-                "messenger"
-            );
-
+        if (command.includes("messenger")) {
+            openWebsite("messenger");
         }
 
-
-        else if (
-            command.includes("facebook")
-        ) {
-
-            openWebsite(
-                "facebook"
-            );
-
+        else if (command.includes("facebook")) {
+            openWebsite("facebook");
         }
 
-
         else if (
-
+            command.includes("tik tok") ||
             command.includes("tiktok")
-
-            ||
-
-            command.includes("tik tok")
-
         ) {
-
-            openWebsite(
-                "tiktok"
-            );
-
+            openWebsite("tiktok");
         }
 
-
         else if (
-
-            command.includes("google maps")
-
-            ||
-
+            command.includes("google maps") ||
             command.includes("bản đồ")
-
         ) {
-
-            openWebsite(
-                "maps"
-            );
-
+            openWebsite("maps");
         }
 
-
         else if (
-
-            command.includes("hazmob")
-
-            ||
-
+            command.includes("hazmob") ||
             command.includes("fps")
-
         ) {
-
-            openWebsite(
-                "hazmob"
-            );
-
+            openWebsite("hazmob");
         }
 
-
         else if (
-
-            command.includes("piano")
-
-            ||
-
+            command.includes("piano") ||
             command.includes("đàn")
-
         ) {
-
-            openWebsite(
-                "piano"
-            );
-
+            openWebsite("piano");
         }
 
-
         else if (
-
-            command.includes("chat gpt")
-
-            ||
-
+            command.includes("chat gpt") ||
             command.includes("chatgpt")
-
         ) {
-
-            openWebsite(
-                "chatgpt"
-            );
-
+            openWebsite("chatgpt");
         }
 
-
         else if (
-
             command.includes("gemini")
-
         ) {
-
-            openWebsite(
-                "gemini"
-            );
-
+            openWebsite("gemini");
         }
-
 
         else if (
-
-            command.includes("youtube")
-
+            command.includes("sương mai")
         ) {
-
-            openWebsite(
-                "youtube"
-            );
-
+            openWebsite("suongmai");
         }
 
+        else if (
+            command.includes("mai phương")
+        ) {
+            openWebsite("maiphuong");
+        }
 
         else {
 
             speak(
-                "Tôi chưa hiểu lệnh này"
+                "Tôi chưa hiểu. Bạn hãy nói tên ứng dụng cần mở."
             );
-
         }
-
     };
-
 
     recognition.onerror =
-    function() {
+        function() {
 
         speak(
-            "Có lỗi với microphone"
+            "Có lỗi với microphone."
         );
-
     };
-
 }
 
-
 speak(
-    "Xin chào. Trợ lý giọng nói tiếng Việt đã sẵn sàng"
+    "Xin chào. Robot AI tiếng Việt đã sẵn sàng."
 );
 
 </script>
